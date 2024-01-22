@@ -1,6 +1,8 @@
 package com.meenakshiscreens.meenakshiscreensbackend.entity;
 
+import com.meenakshiscreens.meenakshiscreensbackend.enums.Role;
 import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -41,4 +43,8 @@ public class User {
 
     @Column(name = "contact_no")
     private String contactNo;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

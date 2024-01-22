@@ -1,5 +1,7 @@
 package com.meenakshiscreens.meenakshiscreensbackend.entity.request;
 
+import com.meenakshiscreens.meenakshiscreensbackend.enums.Role;
+
 import javax.validation.constraints.NotBlank;
 
 public class UserRequest {
@@ -19,6 +21,8 @@ public class UserRequest {
     private String lastName;
 
     private String contactNo;
+
+    private Role role;
 
     public String getFirstName() {
         return firstName;
@@ -66,5 +70,13 @@ public class UserRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

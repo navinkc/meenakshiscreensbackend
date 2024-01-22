@@ -84,4 +84,9 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findByEmail(email);
         return unwrapUser(user, email);
     }
+
+    @Override
+    public Integer getCountByUserName(String userName) {
+        return userRepository.countByUserName(userName);
+    }
 }

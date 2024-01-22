@@ -15,4 +15,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>, 
 
     public Optional<User> findByEmail(String email);
 
+    public Integer countByUserName(String userName);
+
 }
