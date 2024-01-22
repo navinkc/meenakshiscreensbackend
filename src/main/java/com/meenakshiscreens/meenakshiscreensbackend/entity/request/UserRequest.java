@@ -8,8 +8,7 @@ public class UserRequest {
 
     @NotBlank
     private String userName;
-
-    @NotBlank
+    
     private String userPass;
 
     @NotBlank
