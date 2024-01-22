@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@EnableHypermediaSupport(type = { EnableHypermediaSupport.HypermediaType.HAL })
+@EnableHypermediaSupport(type = {EnableHypermediaSupport.HypermediaType.HAL})
 @RequestMapping(value = "/api/private/v1/products")
 public class ProductController {
 
@@ -34,13 +34,13 @@ public class ProductController {
     private PagedResourcesAssembler<Product> designPagedResourcesAssembler;
 
     @GetMapping("")
-    public ResponseEntity<?> getProducts(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable){
+    public ResponseEntity<?> getProducts(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<Product> products = productService.getProducts(pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable("id") Long id){
+    public ResponseEntity<?> getProductById(@PathVariable("id") Long id) {
         Product product = productService.getById(id);
         if (product == null) {
             return new ResponseEntity<>(String.format("Product with %s id not found.", id), HttpStatus.NOT_FOUND);
@@ -49,9 +49,9 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest productRequest){
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product existingProduct = productService.getByProductName(productRequest.getProductName());
-        if (existingProduct != null){
+        if (existingProduct != null) {
             throw new DuplicateEntityException(String.format("Product with %s name already exists", productRequest.getProductName()));
         }
         Product product = new Product();
@@ -66,6 +66,9 @@ public class ProductController {
             throw new RequestValidationException("Id cannot be null.");
         }
         String existingProductName = productService.findProductName(id);
+        if (existingProductName == null) {
+            throw new EntityNotFoundException(String.format("Product with %s id does not exists.", id));
+        }
         if (productRequest.getProductName().equals(existingProductName)) {
             throw new DuplicateEntityException("Please modify the productName field and update.");
         }

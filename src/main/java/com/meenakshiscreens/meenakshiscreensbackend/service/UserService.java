@@ -25,4 +25,6 @@ public interface UserService {
     public boolean findExistingUserByUserName(String userName);
 
     public User getByEmail(String email);
+
+    public Integer getCountByUserName(String userName);
 }
