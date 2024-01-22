@@ -13,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +88,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authorisedUser = userService.getByUserName(authentication.getName());
+        if (!Role.ADMIN.equals(authorisedUser.getRole())) {
+            return new ResponseEntity<String>(String.format("User %s not authorised to perform this action", authentication.getName()), HttpStatus.UNAUTHORIZED);
+        }
         if (id == null) {
             throw new RequestValidationException("Id cannot be null.");
         }
